@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container">
-    {% for item in items.blog %}
+    {% for item in items.blog | slice:"0:2" %}
     <section class="section">
         <div class="columns">
             <div class="column is-8 is-offset-2">

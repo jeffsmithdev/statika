@@ -35,7 +35,7 @@ import (
 )
 
 var (
-	domain          string
+	projectDir      string
 	srcDir          string
 	staticDir       string
 	templatesDir    string
@@ -63,11 +63,11 @@ type item struct {
 func init() {
 
 	if len(os.Args) == 1 {
-		log.Fatal("The domain name is required")
+		log.Fatal("The project path is required")
 	}
 
-	domain = os.Args[1]
-	err := godotenv.Load(domain + "/.env")
+	projectDir = os.Args[1]
+	err := godotenv.Load(projectDir + "/.env")
 	check(err)
 
 	srcDir = os.Getenv("SRC_DIR")
@@ -130,6 +130,11 @@ func build() {
 	check(err)
 
 	for _, section := range strings.Split(sections, ",") {
+
+		if section == "" {
+			continue
+		}
+
 		sectionPath := filepath.Join(contentDir, section)
 		var listTpl = pongo2.Must(pongo2.FromFile(filepath.Join(templatesDir, section+"_list.html")))
 		var showTpl = pongo2.Must(pongo2.FromFile(filepath.Join(templatesDir, section+"_show.html")))
@@ -138,6 +143,7 @@ func build() {
 		check(err)
 
 		for _, file := range files {
+			fmt.Println(file.Name())
 			contents, _ := ioutil.ReadFile(filepath.Join(sectionPath + "/" + file.Name()))
 			matter := front.NewMatter()
 			matter.Handle("---", front.YAMLHandler)
