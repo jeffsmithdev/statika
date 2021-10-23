@@ -21,6 +21,10 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/otiai10/copy"
 	"github.com/radovskyb/watcher"
+	"github.com/tdewolff/minify/v2"
+	"github.com/tdewolff/minify/v2/css"
+	minhtml "github.com/tdewolff/minify/v2/html"
+	"github.com/tdewolff/minify/v2/js"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/renderer/html"
@@ -29,6 +33,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strings"
 	"time"
@@ -44,6 +49,8 @@ var (
 	outputDir       string
 	assetsOutputDir string
 	sections        string
+	sm              *stm.Sitemap
+	m               *minify.M
 )
 
 type item struct {
@@ -80,6 +87,19 @@ func init() {
 	contentDir = filepath.Join(srcDir, "content/")
 	staticDir = filepath.Join(srcDir, "static/")
 	assetsOutputDir = filepath.Join(outputDir, "assets/")
+
+	sm = stm.NewSitemap(1)
+	sm.SetVerbose(true)
+	sm.SetDefaultHost("http://www." + projectDir)
+	sm.SetSitemapsPath("/")
+	sm.SetCompress(false)
+	sm.SetPublicPath(outputDir)
+	sm.Create()
+
+	m = minify.New()
+	m.AddFunc("text/html", minhtml.Minify)
+	m.AddFunc("text/css", css.Minify)
+	m.AddFuncRegexp(regexp.MustCompile("^(application|text)/(x-)?(java|ecma)script$"), js.Minify)
 }
 
 func main() {
@@ -128,14 +148,6 @@ func build() {
 
 	err = copy.Copy(assetsSrcDir, assetsOutputDir)
 	check(err)
-
-	sm := stm.NewSitemap(1)
-	sm.SetVerbose(true)
-	sm.SetDefaultHost("http://www." + projectDir)
-	sm.SetSitemapsPath("/")
-	sm.SetCompress(false)
-	sm.SetPublicPath(outputDir)
-	sm.Create()
 
 	for _, section := range strings.Split(sections, ",") {
 
@@ -191,18 +203,19 @@ func build() {
 
 			items[section] = append(items[section], item)
 
-			data, _ := showTpl.Execute(pongo2.Context{"item": item})
+			data, err := showTpl.Execute(pongo2.Context{"item": item})
+			check(err)
 
 			if section == "pages" {
 				outputFilePath := filepath.Join(outputDir, removeExtension(file.Name()))
 				err = os.MkdirAll(outputFilePath, 0777)
-				err = os.WriteFile(filepath.Join(outputFilePath, "index.html"), []byte(data), 0644)
+				err = os.WriteFile(filepath.Join(outputFilePath, "index.html"), []byte(minifyHtml(data)), 0644)
 				sm.Add(stm.URL{{"loc", "/" + item.Slug}})
 			} else {
 				outputFilePath := filepath.Join(outputDir, section, removeExtension(file.Name()))
 				err = os.MkdirAll(outputFilePath, 0777)
 				check(err)
-				err = os.WriteFile(filepath.Join(outputFilePath, "index.html"), []byte(data), 0644)
+				err = os.WriteFile(filepath.Join(outputFilePath, "index.html"), []byte(minifyHtml(data)), 0644)
 				sm.Add(stm.URL{{"loc", "/" + section + "/" + item.Slug}})
 			}
 			check(err)
@@ -222,18 +235,24 @@ func build() {
 			err = os.MkdirAll(outputFilePath, 0777)
 			check(err)
 
-			err = os.WriteFile(filepath.Join(outputFilePath, "index.html"), []byte(data), 0644)
+			err = os.WriteFile(filepath.Join(outputFilePath, "index.html"), []byte(minifyHtml(data)), 0644)
 			check(err)
 		}
 	}
 
 	var homeTpl = pongo2.Must(pongo2.FromFile(filepath.Join(templatesDir, "home.html")))
 	data, _ := homeTpl.Execute(pongo2.Context{"items": items})
-	err = os.WriteFile(filepath.Join(outputDir, "index.html"), []byte(data), 0644)
+	err = os.WriteFile(filepath.Join(outputDir, "index.html"), []byte(minifyHtml(data)), 0644)
 
 	sm.Finalize()
 	duration := time.Since(start)
 	fmt.Println("Finished building: ", duration)
+}
+
+func minifyHtml(content string) string {
+	minifiedHtml, err := m.String("text/html", content)
+	check(err)
+	return minifiedHtml
 }
 
 func watch() {
