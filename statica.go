@@ -3,7 +3,7 @@
 Statica is a simple SSG (Static Site Generator).
 
 Example:
-$ statica <project-dir>   # The default action is to watch
+$ statica <project-dir>   # The project dir should be in the form of a domain name (without subdomain)
 $ statica example.com -c  # Clean the output
 $ statica example.com -b  # Manually build
 $ statica example.com -w  # Watch for changes then build
@@ -39,7 +39,10 @@ import (
 	"time"
 )
 
+const version = "0.0.1"
+
 var (
+	verbose         bool
 	projectDir      string
 	srcDir          string
 	staticDir       string
@@ -104,13 +107,19 @@ func init() {
 
 func main() {
 	var opts struct {
-		Server []bool `short:"s" long:"server" description:"Run development server"`
-		Build  []bool `short:"b" long:"build" description:"Build the site"`
-		Watch  []bool `short:"w" long:"watch" description:"Watch for file changes and build site automatically"`
-		Clean  []bool `short:"c" long:"clean" description:"Clean build directory"`
+		Server  []bool `short:"s" long:"server" description:"Run development server"`
+		Build   []bool `short:"b" long:"build" description:"Build the site"`
+		Watch   []bool `short:"w" long:"watch" description:"Watch for file changes and build site automatically"`
+		Clean   []bool `short:"c" long:"clean" description:"Clean build directory"`
+		Verbose []bool `short:"v" long:"verbose" description:"Enable verbose logging"`
 	}
 	_, err := flags.Parse(&opts)
 	check(err)
+	verbose = len(opts.Verbose) > 0
+
+	if verbose {
+		fmt.Println("Version: ", version)
+	}
 
 	if len(opts.Server) > 0 {
 		fmt.Println("Serving...")
@@ -155,6 +164,10 @@ func build() {
 			continue
 		}
 
+		if verbose {
+			fmt.Println("Section: ", section)
+		}
+
 		sectionPath := filepath.Join(contentDir, section)
 		var listTpl = pongo2.Must(pongo2.FromFile(filepath.Join(templatesDir, section+"_list.html")))
 		var showTpl = pongo2.Must(pongo2.FromFile(filepath.Join(templatesDir, section+"_show.html")))
@@ -163,7 +176,10 @@ func build() {
 		check(err)
 
 		for _, file := range files {
-			fmt.Println(file.Name())
+			if verbose {
+				fmt.Println("Processing file: ", file.Name())
+			}
+
 			contents, _ := ioutil.ReadFile(filepath.Join(sectionPath + "/" + file.Name()))
 			matter := front.NewMatter()
 			matter.Handle("---", front.YAMLHandler)
