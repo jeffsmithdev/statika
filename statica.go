@@ -73,17 +73,18 @@ type item struct {
 func init() {
 
 	if len(os.Args) == 1 {
-		log.Fatal("The project path is required")
+		log.Fatal("The domain name (i.e. project folder) is required")
 	}
 
 	projectDir = os.Args[1]
+
 	err := godotenv.Load(projectDir + "/.env")
 	check(err)
 
-	srcDir = os.Getenv("SRC_DIR")
-	outputDir = os.Getenv("OUTPUT_DIR")
 	sections = os.Getenv("SECTIONS")
 
+	srcDir = filepath.Join(projectDir, "src/")
+	outputDir = filepath.Join(projectDir, "output/")
 	staticDir = filepath.Join(srcDir, "static/")
 	templatesDir = filepath.Join(srcDir, "templates/")
 	assetsSrcDir = filepath.Join(srcDir, "assets/")
@@ -301,7 +302,18 @@ func server() {
 	fs := http.FileServer(http.Dir("./" + outputDir))
 	http.Handle("/", fs)
 
-	hostname := os.Getenv("SERVER_HOST") + ":" + os.Getenv("SERVER_PORT")
+	var hostname, host, port string
+
+	if host = os.Getenv("SERVER_HOST"); host == "" {
+		host = "localhost"
+	}
+
+	if port = os.Getenv("SERVER_PORT"); port == "" {
+		port = "8001"
+	}
+
+	hostname = host + ":" + port
+
 	log.Println("Listening on " + hostname)
 	err := http.ListenAndServe(hostname, nil)
 	if err != nil {
