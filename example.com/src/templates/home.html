@@ -9,7 +9,7 @@
         <div class="columns">
             <div class="column is-8 is-offset-2">
                 <div class="content is-medium">
-                    <h1 class="title"><a href="/blog/{{ item.Slug }}.html">{{ item.Title }}</a></h1>
+                    <h1 class="title"><a href="/blog/{{ item.Slug }}">{{ item.Title }}</a></h1>
                     <p class="subtitle">{{ item.Date | date:"January 2, 2006" }}</p>
                     <p>{{ item.Content | truncatechars:50  | safe }} <span class="is-size-7"><a href="/blog/{{ item.Slug }}">[ Read More ]</a></span>
                     </p>

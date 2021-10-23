@@ -16,13 +16,13 @@ import (
 	"fmt"
 	"github.com/flosch/pongo2/v4"
 	"github.com/gernest/front"
+	"github.com/ikeikeikeike/go-sitemap-generator/v2/stm"
 	"github.com/jessevdk/go-flags"
 	"github.com/joho/godotenv"
 	"github.com/otiai10/copy"
 	"github.com/radovskyb/watcher"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
-	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer/html"
 	"io/ioutil"
 	"log"
@@ -129,6 +129,14 @@ func build() {
 	err = copy.Copy(assetsSrcDir, assetsOutputDir)
 	check(err)
 
+	sm := stm.NewSitemap(1)
+	sm.SetVerbose(true)
+	sm.SetDefaultHost("http://www." + projectDir)
+	sm.SetSitemapsPath("/")
+	sm.SetCompress(false)
+	sm.SetPublicPath(outputDir)
+	sm.Create()
+
 	for _, section := range strings.Split(sections, ",") {
 
 		if section == "" {
@@ -157,12 +165,7 @@ func build() {
 			var buf bytes.Buffer
 			md := goldmark.New(
 				goldmark.WithExtensions(extension.GFM),
-				goldmark.WithParserOptions(
-					parser.WithAutoHeadingID(),
-				),
 				goldmark.WithRendererOptions(
-					html.WithHardWraps(),
-					html.WithXHTML(),
 					html.WithUnsafe(),
 				),
 			)
@@ -194,13 +197,16 @@ func build() {
 				outputFilePath := filepath.Join(outputDir, removeExtension(file.Name()))
 				err = os.MkdirAll(outputFilePath, 0777)
 				err = os.WriteFile(filepath.Join(outputFilePath, "index.html"), []byte(data), 0644)
+				sm.Add(stm.URL{{"loc", "/" + item.Slug}})
 			} else {
 				outputFilePath := filepath.Join(outputDir, section, removeExtension(file.Name()))
 				err = os.MkdirAll(outputFilePath, 0777)
 				check(err)
 				err = os.WriteFile(filepath.Join(outputFilePath, "index.html"), []byte(data), 0644)
+				sm.Add(stm.URL{{"loc", "/" + section + "/" + item.Slug}})
 			}
 			check(err)
+
 		}
 
 		for _, section := range strings.Split(sections, ",") {
@@ -225,6 +231,7 @@ func build() {
 	data, _ := homeTpl.Execute(pongo2.Context{"items": items})
 	err = os.WriteFile(filepath.Join(outputDir, "index.html"), []byte(data), 0644)
 
+	sm.Finalize()
 	duration := time.Since(start)
 	fmt.Println("Finished building: ", duration)
 }
