@@ -1,0 +1,11 @@
+{% extends "layout.txt" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% for item in items %}
+{{ item.Title }}
+/blog/{{ item.Slug }}
+
+{% endfor %}
+{% endblock %}

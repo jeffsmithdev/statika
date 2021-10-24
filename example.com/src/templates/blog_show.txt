@@ -1,0 +1,7 @@
+{% extends "layout.txt" %}
+
+{% block title %}{{ item.Title }}{% endblock %}
+
+{% block content %}
+{{ item.RawContent | safe }}
+{% endblock %}

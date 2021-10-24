@@ -58,6 +58,7 @@ var (
 
 type item struct {
 	Content    string
+	RawContent string
 	Title      string
 	Subtitle   string
 	Slug       string
@@ -170,8 +171,11 @@ func build() {
 		}
 
 		sectionPath := filepath.Join(contentDir, section)
-		var listTpl = pongo2.Must(pongo2.FromFile(filepath.Join(templatesDir, section+"_list.html")))
-		var showTpl = pongo2.Must(pongo2.FromFile(filepath.Join(templatesDir, section+"_show.html")))
+		var htmlListTpl = pongo2.Must(pongo2.FromFile(filepath.Join(templatesDir, section+"_list.html")))
+		var htmlShowTpl = pongo2.Must(pongo2.FromFile(filepath.Join(templatesDir, section+"_show.html")))
+
+		//var txtListTpl = pongo2.Must(pongo2.FromFile(filepath.Join(templatesDir, section+"_list.txt")))
+		//var txtShowTpl = pongo2.Must(pongo2.FromFile(filepath.Join(templatesDir, section+"_show.txt")))
 
 		files, err := ioutil.ReadDir(sectionPath)
 		check(err)
@@ -203,8 +207,9 @@ func build() {
 			}
 
 			item := item{
-				Content: buf.String(),
-				Slug:    removeExtension(file.Name()),
+				Content:    buf.String(),
+				RawContent: body,
+				Slug:       removeExtension(file.Name()),
 			}
 
 			item.Title = get(frontMatter, "title")
@@ -220,19 +225,22 @@ func build() {
 
 			items[section] = append(items[section], item)
 
-			data, err := showTpl.Execute(pongo2.Context{"item": item})
+			htmlContents, err := htmlShowTpl.Execute(pongo2.Context{"item": item})
+			//txtContents, err := txtShowTpl.Execute(pongo2.Context{"item": item})
 			check(err)
 
 			if section == "pages" {
 				outputFilePath := filepath.Join(outputDir, removeExtension(file.Name()))
 				err = os.MkdirAll(outputFilePath, 0777)
-				err = os.WriteFile(filepath.Join(outputFilePath, "index.html"), []byte(minifyHtml(data)), 0644)
+				err = os.WriteFile(filepath.Join(outputFilePath, "index.html"), []byte(minifyHtml(htmlContents)), 0644)
+				//err = os.WriteFile(filepath.Join(outputFilePath, "index.txt"), []byte(txtContents), 0644)
 				sm.Add(stm.URL{{"loc", "/" + item.Slug}})
 			} else {
 				outputFilePath := filepath.Join(outputDir, section, removeExtension(file.Name()))
 				err = os.MkdirAll(outputFilePath, 0777)
 				check(err)
-				err = os.WriteFile(filepath.Join(outputFilePath, "index.html"), []byte(minifyHtml(data)), 0644)
+				err = os.WriteFile(filepath.Join(outputFilePath, "index.html"), []byte(minifyHtml(htmlContents)), 0644)
+				//err = os.WriteFile(filepath.Join(outputFilePath, "index.txt"), []byte(txtContents), 0644)
 				sm.Add(stm.URL{{"loc", "/" + section + "/" + item.Slug}})
 			}
 			check(err)
@@ -246,20 +254,27 @@ func build() {
 		}
 
 		if section != "pages" {
-			data, _ := listTpl.Execute(pongo2.Context{"items": items[section]})
 			outputFilePath := filepath.Join(outputDir, section)
-
 			err = os.MkdirAll(outputFilePath, 0777)
 			check(err)
 
-			err = os.WriteFile(filepath.Join(outputFilePath, "index.html"), []byte(minifyHtml(data)), 0644)
+			htmlContent, _ := htmlListTpl.Execute(pongo2.Context{"items": items[section]})
+			err = os.WriteFile(filepath.Join(outputFilePath, "index.html"), []byte(minifyHtml(htmlContent)), 0644)
+			check(err)
+
+			//txtContent, _ := txtListTpl.Execute(pongo2.Context{"items": items[section]})
+			//err = os.WriteFile(filepath.Join(outputFilePath, "index.txt"), []byte(txtContent), 0644)
 			check(err)
 		}
 	}
 
-	var homeTpl = pongo2.Must(pongo2.FromFile(filepath.Join(templatesDir, "home.html")))
-	data, _ := homeTpl.Execute(pongo2.Context{"items": items})
-	err = os.WriteFile(filepath.Join(outputDir, "index.html"), []byte(minifyHtml(data)), 0644)
+	var htmlHomeTpl = pongo2.Must(pongo2.FromFile(filepath.Join(templatesDir, "home.html")))
+	htmlContents, _ := htmlHomeTpl.Execute(pongo2.Context{"items": items})
+	err = os.WriteFile(filepath.Join(outputDir, "index.html"), []byte(minifyHtml(htmlContents)), 0644)
+
+	//var txtHomeTpl = pongo2.Must(pongo2.FromFile(filepath.Join(templatesDir, "home.txt")))
+	//txtContents, _ := txtHomeTpl.Execute(pongo2.Context{"items": items})
+	//err = os.WriteFile(filepath.Join(outputDir, "index.txt"), []byte(minifyHtml(txtContents)), 0644)
 
 	sm.Finalize()
 	duration := time.Since(start)
