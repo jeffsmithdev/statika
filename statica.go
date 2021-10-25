@@ -2,7 +2,7 @@
 
 Statica is a simple SSG (Static Site Generator).
 
-Example:
+Examples:
 $ statica <project-dir>   # The project dir should be in the form of a domain name (without subdomain)
 $ statica example.com -c  # Clean the output
 $ statica example.com -b  # Manually build
@@ -51,7 +51,7 @@ var (
 	contentDir      string
 	outputDir       string
 	assetsOutputDir string
-	sections        string
+	sections        []string
 	sm              *stm.Sitemap
 	m               *minify.M
 )
@@ -82,12 +82,10 @@ func init() {
 	err := godotenv.Load(projectDir + "/.env")
 	check(err)
 
-	sections = os.Getenv("SECTIONS")
-
 	srcDir = filepath.Join(projectDir, "src/")
 	outputDir = filepath.Join(projectDir, "output/")
 	staticDir = filepath.Join(srcDir, "static/")
-	templatesDir = filepath.Join(srcDir, "templates/")
+	templatesDir = filepath.Join(srcDir, "templates/html")
 	assetsSrcDir = filepath.Join(srcDir, "assets/")
 	contentDir = filepath.Join(srcDir, "content/")
 	staticDir = filepath.Join(srcDir, "static/")
@@ -95,7 +93,7 @@ func init() {
 
 	sm = stm.NewSitemap(1)
 	sm.SetVerbose(true)
-	sm.SetDefaultHost("http://www." + projectDir)
+	sm.SetDefaultHost("http://" + projectDir)
 	sm.SetSitemapsPath("/")
 	sm.SetCompress(false)
 	sm.SetPublicPath(outputDir)
@@ -160,7 +158,9 @@ func build() {
 	err = copy.Copy(assetsSrcDir, assetsOutputDir)
 	check(err)
 
-	for _, section := range strings.Split(sections, ",") {
+	sections = getSections()
+
+	for _, section := range sections {
 
 		if section == "" {
 			continue
@@ -247,7 +247,7 @@ func build() {
 
 		}
 
-		for _, section := range strings.Split(sections, ",") {
+		for _, section := range sections {
 			sort.Slice(items[section], func(i, j int) bool {
 				return items[section][i].Date.After(items[section][j].Date)
 			})
@@ -279,6 +279,18 @@ func build() {
 	sm.Finalize()
 	duration := time.Since(start)
 	fmt.Println("Finished building: ", duration)
+}
+
+func getSections() []string {
+	dirList, err := ioutil.ReadDir(contentDir)
+	if err != nil || len(dirList) == 0 {
+		log.Fatal(err)
+	}
+
+	for _, fi := range dirList {
+		sections = append(sections, fi.Name())
+	}
+	return sections
 }
 
 func minifyHtml(content string) string {
