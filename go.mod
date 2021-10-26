@@ -1,4 +1,4 @@
-module statica
+module statika
 
 go 1.17
 

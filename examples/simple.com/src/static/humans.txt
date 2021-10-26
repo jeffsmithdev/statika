@@ -1,0 +1,1 @@
+statika is a simple static site generator written in go.

@@ -15,6 +15,9 @@
 # vendor/
 
 .idea
-/example.com/output/
+/examples/simple.com/output/
 bin
 output
+/examples/statika.app/deploy-prod.sh
+/examples/statika.app/deploy-staging.sh
+/examples/statika.app/deploy-testing.sh

@@ -1,13 +1,13 @@
-/*Statica
+/*statika
 
-Statica is a simple SSG (Static Site Generator).
+statika is a simple SSG (Static Site Generator).
 
 Examples:
-$ statica <project-dir>   # The project dir should be in the form of a domain name (without subdomain)
-$ statica example.com -c  # Clean the output
-$ statica example.com -b  # Manually build
-$ statica example.com -w  # Watch for changes then build
-$ statica example.com -s  # Run a local development server
+$ statika <project-dir>   # The project dir should be in the form of a domain name (without subdomain)
+$ statika simple.com -c  # Clean the output
+$ statika simple.com -b  # Manually build
+$ statika simple.com -w  # Watch for changes then build
+$ statika simple.com -s  # Run a local development server
 */
 package main
 
@@ -42,18 +42,16 @@ import (
 const version = "0.0.1"
 
 var (
-	verbose         bool
-	projectDir      string
-	srcDir          string
-	staticDir       string
-	templatesDir    string
-	assetsSrcDir    string
-	contentDir      string
-	outputDir       string
-	assetsOutputDir string
-	sections        []string
-	sm              *stm.Sitemap
-	m               *minify.M
+	verbose      bool
+	projectDir   string
+	srcDir       string
+	staticDir    string
+	templatesDir string
+	contentDir   string
+	outputDir    string
+	sections     []string
+	sm           *stm.Sitemap
+	m            *minify.M
 )
 
 type item struct {
@@ -86,10 +84,8 @@ func init() {
 	outputDir = filepath.Join(projectDir, "output/")
 	staticDir = filepath.Join(srcDir, "static/")
 	templatesDir = filepath.Join(srcDir, "templates/html")
-	assetsSrcDir = filepath.Join(srcDir, "assets/")
 	contentDir = filepath.Join(srcDir, "content/")
 	staticDir = filepath.Join(srcDir, "static/")
-	assetsOutputDir = filepath.Join(outputDir, "assets/")
 
 	sm = stm.NewSitemap(1)
 	sm.SetVerbose(true)
@@ -153,9 +149,6 @@ func build() {
 	clean()
 
 	err := copy.Copy(staticDir, outputDir)
-	check(err)
-
-	err = copy.Copy(assetsSrcDir, assetsOutputDir)
 	check(err)
 
 	sections = getSections()
