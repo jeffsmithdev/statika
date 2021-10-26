@@ -1,22 +1,21 @@
+$primary: #0A486B !default;
+$secondary: #666 !default;
+$success: #5cb85c !default;
+$info: #6f42c1 !default;
+$warning: #f0ad4e !default;
+$danger: #d9534f !default;
 
-$primary:       #0A486B !default;
-$secondary:     #666 !default;
-$success:       #5cb85c !default;
-$info:         #6f42c1 !default;
-$warning:       #f0ad4e !default;
-$danger:        #d9534f !default;
+$body-bg: #f7f4f6 !default;
+$body-color: #666 !default;
 
-$body-bg:                   #f7f4f6 !default;
-$body-color:                #666 !default;
+$font-family-sans-serif: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
 
-$font-family-sans-serif:      "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
-
-$navbar-dark-color:                 rgba(#fff, .8) !default;
-$navbar-dark-hover-color:           rgba(#fff, .9) !default;
-$navbar-dark-active-color:          #fff !default;
-$navbar-dark-disabled-color:        rgba(#fff, .25) !default;
-$navbar-dark-toggler-icon-bg:       url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'><path stroke='#{$navbar-dark-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
-$navbar-dark-toggler-border-color:  rgba(#fff, .1);
+$navbar-dark-color: rgba(#fff, .8) !default;
+$navbar-dark-hover-color: rgba(#fff, .9) !default;
+$navbar-dark-active-color: #fff !default;
+$navbar-dark-disabled-color: rgba(#fff, .25) !default;
+$navbar-dark-toggler-icon-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'><path stroke='#{$navbar-dark-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
+$navbar-dark-toggler-border-color: rgba(#fff, .1);
 
 //$grid-breakpoints: (
 //  xxxs: 0,
