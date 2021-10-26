@@ -1,8 +1,7 @@
 # Statika
 
-Statika is simple static site generator(SSG) written in go emphasizing convention over configuration.  This is a newer version of my [original statika](https://github.com/jeffsmithdev/statika).
-Statika is (generally) not intended for public consumption.  It just does what I want.  It probably won't do what you want.  
-That being said....
+Statika is simple static site generator(SSG) written in go emphasizing convention over configuration.  This is a newer version of my [original statica](https://github.com/jeffsmithdev/statica).
+Statika is (generally) not intended for public consumption.  It just does what I want.  It probably won't do what you want.  That being said....
 
 ## Build
 
