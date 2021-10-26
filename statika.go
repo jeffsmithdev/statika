@@ -49,7 +49,6 @@ var (
 	templatesDir string
 	contentDir   string
 	outputDir    string
-	sections     []string
 	sm           *stm.Sitemap
 	m            *minify.M
 )
@@ -151,7 +150,7 @@ func build() {
 	err := copy.Copy(staticDir, outputDir)
 	check(err)
 
-	sections = getSections()
+	sections := getSections()
 
 	for _, section := range sections {
 
@@ -275,6 +274,7 @@ func build() {
 }
 
 func getSections() []string {
+	var sections []string
 	dirList, err := ioutil.ReadDir(contentDir)
 	if err != nil || len(dirList) == 0 {
 		log.Fatal(err)
