@@ -1,0 +1,11 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+code0x378
+
+# TECHNOLOGY COLOPHON
+
+    python, statika,
+

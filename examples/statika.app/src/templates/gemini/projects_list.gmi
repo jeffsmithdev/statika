@@ -1,0 +1,2 @@
+{% for item in items %} 
+=> /gemini/projects/{{ item.slug }}.gmi {{ item.title }} {% endfor %}

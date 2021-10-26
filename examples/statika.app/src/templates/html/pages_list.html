@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block page_title %}Site Index{% endblock %}
+{% block title %}Site Index{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    {% for item in items %}
+    <p><a href="/{{ item.Slug }}">{{ item.Title }}</a></p>
+    {% endfor %}
+</div>
+{% endblock %}

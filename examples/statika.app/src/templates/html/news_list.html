@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block page_title %}News{% endblock %}
+{% block title %}News{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <section class="news">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    {% for item in items %}
+                    <tr>
+                        <td>{{ item.Date | date:"January 2, 2006" }}</td>
+                        <td><a href="/news/{{ item.Slug }}">{{ item.Title }}</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

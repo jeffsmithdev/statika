@@ -379,7 +379,7 @@ func getDate(frontMatter map[string]interface{}, key string) time.Time {
 
 func getSlice(frontMatter map[string]interface{}, key string) []string {
 	if frontMatter[key] != nil {
-		return strings.Split(strings.ReplaceAll(frontMatter[key].(string), " ", ""), ",")
+		return strings.Split(strings.ReplaceAll(frontMatter[key].(string), ", ", ","), ",")
 	} else {
 		return []string{}
 	}
