@@ -21,4 +21,3 @@ output
 /examples/statika.app/deploy-prod.sh
 /examples/statika.app/deploy-staging.sh
 /examples/statika.app/deploy-testing.sh
-/examples/statika.app/src/static/assets/
