@@ -5,27 +5,29 @@
 
 {% block content %}
 <div class="container py-5 cx-sites-show">
-    <div class="row">
-        <div class="col-lg-5">
-            <h2>About {{ page.Title }}</h2>
-            <p>{{ page.Subtitle }}</p>
-            <p>{% for tag in page.Tags %}<span class="badge badge-primary mr-2 p-2"><a
-                    href="/sites/tags/{{ tag | slugify }}">{{ tag }}</a></span>{% endfor %}</p>
-            <p>{{ page.Content | safe }}</p>
-            {% if page.Website %}<p>
-            <hr>
-            <a href="{{ page.Website }}" class="btn btn-outline-secondary btn-sm">View Website</a>
-            </p>{% endif %}
+    <article>
+        <div class="row">
+            <div class="col-lg-5">
+                <h2>About {{ page.Title }}</h2>
+                <p>{{ page.Subtitle }}</p>
+                <p>{% for tag in page.Tags %}<span class="badge badge-primary mr-2 p-2"><a
+                        href="/sites/tags/{{ tag | slugify }}">{{ tag }}</a></span>{% endfor %}</p>
+                <p>{{ page.Content | safe }}</p>
+                {% if page.Website %}<p>
+                <hr>
+                <a href="{{ page.Website }}" class="btn btn-outline-secondary btn-sm">View Website</a>
+                </p>{% endif %}
+            </div>
+            <div class="col-lg-7 p-5 text-center">
+                {% for image in page.Images %}
+                {% if image %}
+                <p><a href="/assets/img/sites/{{ image }}" data-toggle="lightbox" data-gallery="sites"
+                      title="{{ page.Title }}"><img src="/assets/img/sites/{{ image }}"
+                                                    alt="{{ page.Title }}" class="img-fluid"></a></p>
+                {% endif %}
+                {% endfor %}
+            </div>
         </div>
-        <div class="col-lg-7 p-5 text-center">
-            {% for image in page.Images %}
-            {% if image %}
-            <p><a href="/assets/img/sites/{{ image }}" data-toggle="lightbox" data-gallery="sites"
-                  title="{{ page.Title }}"><img src="/assets/img/sites/{{ image }}"
-                                                alt="{{ page.Title }}" class="img-fluid"></a></p>
-            {% endif %}
-            {% endfor %}
-        </div>
-    </div>
+    </article>
 </div>
 {% endblock %}

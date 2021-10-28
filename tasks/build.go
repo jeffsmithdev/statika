@@ -121,9 +121,6 @@ func Build(cfg *models.Config) {
 				Date:        util.GetDate(frontMatter, "date"),
 			}
 
-			htmlContents, err := templates[section]["html"]["show"].Execute(pongo2.Context{"page": page})
-			util.Check(err)
-
 			var outputFilePath string
 			if section == "pages" {
 				outputFilePath = filepath.Join(cfg.OutputDir, removeExtension(file.Name()))
@@ -133,9 +130,12 @@ func Build(cfg *models.Config) {
 				sm.Add(stm.URL{{"loc", "/" + section + "/" + page.Slug}})
 			}
 			makeDir(outputFilePath)
-			writeFile(filepath.Join(outputFilePath, "index.html"), htmlContents)
+			saveHtml(templates, section, "show", filepath.Join(outputFilePath, "index.html"), pongo2.Context{"page": page})
 
+			// add page to list of all pages in this section
 			pages[section] = append(pages[section], page)
+
+			// add this page to list of all tags
 			for _, tag := range page.Tags {
 				tags[section][tag] = append(tags[section][tag], page)
 			}
@@ -149,36 +149,39 @@ func Build(cfg *models.Config) {
 		}
 
 		if section != "pages" {
-			// write list page for section
+			// write list index for section
 			outputFilePath := filepath.Join(cfg.OutputDir, section)
 			makeDir(outputFilePath)
-			htmlContent, _ := templates[section]["html"]["list"].Execute(pongo2.Context{"pages": pages[section], "tags": tags[section]})
-			writeFile(filepath.Join(outputFilePath, "index.html"), minifyHtml(htmlContent))
-			util.Check(err)
+			saveHtml(templates, section, "list", filepath.Join(outputFilePath, "index.html"), pongo2.Context{"pages": pages[section], "tags": tags[section]})
 
-			// write list page for each tag in this section
+			// write list index for each tag in this section
 			for key, val := range tags[section] {
 				tagPath := filepath.Join(outputFilePath, "tags", slug.Make(key))
 				makeDir(tagPath)
-				htmlContent, _ := templates[section]["html"]["list"].Execute(pongo2.Context{"pages": val, "tags": tags[section]})
-				writeFile(filepath.Join(tagPath, "index.html"), minifyHtml(htmlContent))
+				saveHtml(templates, section, "list", filepath.Join(tagPath, "index.html"), pongo2.Context{"pages": val, "tags": tags[section]})
 				util.Check(err)
 			}
 
-			// write tag list page containing index and count of all tags
-			tagContent, _ := templates[section]["html"]["tags"].Execute(pongo2.Context{"tags": tags[section]})
-			writeFile(filepath.Join(outputFilePath, "tags", "index.html"), minifyHtml(tagContent))
+			// write tags page containing an index and count of all tags
+			saveHtml(templates, section, "tags", filepath.Join(outputFilePath, "tags", "index.html"), pongo2.Context{"tags": tags[section]})
 			util.Check(err)
 		}
 	}
 
 	// write the site's home page
-	htmlContents, _ := templates["pages"]["html"]["home"].Execute(pongo2.Context{"pages": pages})
-	writeFile(filepath.Join(cfg.OutputDir, "index.html"), minifyHtml(htmlContents))
+	saveHtml(templates, "pages", "home", filepath.Join(cfg.OutputDir, "index.html"), pongo2.Context{"pages": pages})
 
 	sm.Finalize()
 	duration := time.Since(start)
 	fmt.Println("Finished building: ", duration)
+}
+
+func saveHtml(templates Templates, section string, pageType string, path string, context pongo2.Context) {
+	if templates[section]["html"][pageType] != nil {
+		htmlContent, err := templates[section]["html"][pageType].Execute(context)
+		util.Check(err)
+		writeFile(path, minifyHtml(htmlContent))
+	}
 }
 
 func readMarkdownFile(path string) (frontMatter map[string]interface{}, body string) {
@@ -202,7 +205,6 @@ func writeFile(path string, contents string) {
 }
 
 func loadTemplates(section string, templates Templates, cfg *models.Config) Templates {
-
 	types := []string{"list", "show", "tags", "home"}
 	templates[section] = make(map[string]map[string]*pongo2.Template)
 	templates[section]["html"] = make(map[string]*pongo2.Template)
@@ -218,6 +220,8 @@ func loadTemplate(section string, t string, cfg *models.Config) *pongo2.Template
 	localTplPath := filepath.Join(cfg.TemplatesDir, section+"_"+t+".html")
 	if fileExists(localTplPath) {
 		tpl = pongo2.Must(pongo2.FromFile(filepath.Join(cfg.TemplatesDir, section+"_"+t+".html")))
+	} else {
+		tpl = nil
 	}
 	return tpl
 }

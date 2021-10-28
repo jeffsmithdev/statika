@@ -7,7 +7,7 @@
 <div class="container py-5">
     <section class="news text-center">
         {% for key, pages in tags %}
-        <p><a href="{{ key | slugify }}">{{ key }} ({{ pages | length }})</a></p>
+        <p><a href="/news/tags/{{ key | slugify }}">{{ key }} ({{ pages | length }})</a></p>
         {% endfor %}
     </section>
 </div>
