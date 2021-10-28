@@ -1,5 +1,5 @@
 --- 
-uuid: {5dca8a4c-1030-44dc-a184-be7276363e48} 
+uuid: "5dca8a4c-1030-44dc-a184-be7276363e48"
 title: Ruff Ruff Couture
 linktitle: Ruff Ruff Couture
 date: 2018-01-23 

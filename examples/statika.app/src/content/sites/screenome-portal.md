@@ -1,5 +1,5 @@
 --- 
-uuid: {a4d60487-cd0c-4ad3-868b-39106b6e195d} 
+uuid: "a4d60487-cd0c-4ad3-868b-39106b6e195d"
 title: Screenome Portal 
 linktitle: Screenome Portal 
 date: 2017-10-22 

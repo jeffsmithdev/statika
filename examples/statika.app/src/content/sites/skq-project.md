@@ -1,5 +1,5 @@
 --- 
-uuid: {7942689f-1fdc-4e8a-930c-7341bbfdbbb8} 
+uuid: "7942689f-1fdc-4e8a-930c-7341bbfdbbb8"
 title: SKQ Project 
 linktitle: SKQ Project 
 date: 2021-10-08 

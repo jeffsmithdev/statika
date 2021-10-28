@@ -1,5 +1,5 @@
 --- 
-uuid: {5dca8a4c-1030-44dc-a184-ae7276363e48} 
+uuid: "5dca8a4c-1030-44dc-a184-ae7276363e48"
 title: Mitotech 
 linktitle: Mitotech 
 date: 2021-10-10 

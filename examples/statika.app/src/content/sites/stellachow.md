@@ -1,5 +1,5 @@
 --- 
-uuid: {5dca8a4c-1030-46dc-a184-ae7276363e48} 
+uuid: "5dca8a4c-1030-46dc-a184-ae7276363e48"
 title: Stella Chow Real Estate 
 linktitle: Stella Chow Real Estate  
 date: 2016-01-23 

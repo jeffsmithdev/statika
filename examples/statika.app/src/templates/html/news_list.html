@@ -8,11 +8,15 @@
     <section class="news">
         <div class="row">
             <div class="col-md-12">
+                <p class="tag-header py-2 mb-4 text-center"><span class="badge p-2"><a
+                        href="/news/tags/">All Tags</a></span> | {% for tag in tags %}<span class="badge ml-2 p-2"><a
+                        href="/news/tags/{{ tag | slugify }}">{{ tag }}</a></span>{% endfor %}</p>
+
                 <table class="table">
-                    {% for item in items %}
+                    {% for page in pages %}
                     <tr>
-                        <td>{{ item.Date | date:"January 2, 2006" }}</td>
-                        <td><a href="/news/{{ item.Slug }}">{{ item.Title }}</a></td>
+                        <td>{{ page.Date | date:"January 2, 2006" }}</td>
+                        <td><a href="/news/{{ page.Slug }}">{{ page.Title }}</a></td>
                     </tr>
                     {% endfor %}
                 </table>

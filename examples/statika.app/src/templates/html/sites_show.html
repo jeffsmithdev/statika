@@ -1,27 +1,28 @@
 {% extends "layout.html" %}
 
-{% block page_title %}{{ item.Title }}{% endblock %}
-{% block title %}{{ item.Title }}{% endblock %}
+{% block page_title %}{{ page.Title }}{% endblock %}
+{% block title %}{{ page.Title }}{% endblock %}
 
 {% block content %}
 <div class="container py-5 cx-sites-show">
     <div class="row">
         <div class="col-lg-5">
-            <h2>About {{ item.Title }}</h2>
-            <p>{{ item.Subtitle }}</p>
-            <p>{% for tag in item.Tags %}<span class="badge badge-primary ml-2">{{ tag }}</span>{% endfor %}</p>
-            <p>{{ item.Content | safe }}</p>
-            {% if item.Website %}<p>
+            <h2>About {{ page.Title }}</h2>
+            <p>{{ page.Subtitle }}</p>
+            <p>{% for tag in page.Tags %}<span class="badge badge-primary mr-2 p-2"><a
+                    href="/sites/tags/{{ tag | slugify }}">{{ tag }}</a></span>{% endfor %}</p>
+            <p>{{ page.Content | safe }}</p>
+            {% if page.Website %}<p>
             <hr>
-            <a href="{{ item.Website }}" class="btn btn-outline-secondary btn-sm">View Website</a>
+            <a href="{{ page.Website }}" class="btn btn-outline-secondary btn-sm">View Website</a>
             </p>{% endif %}
         </div>
         <div class="col-lg-7 p-5 text-center">
-            {% for image in item.Images %}
+            {% for image in page.Images %}
             {% if image %}
             <p><a href="/assets/img/sites/{{ image }}" data-toggle="lightbox" data-gallery="sites"
-                  title="{{ item.Title }}"><img src="/assets/img/sites/{{ image }}"
-                                                alt="{{ item.Title }}" class="img-fluid"></a></p>
+                  title="{{ page.Title }}"><img src="/assets/img/sites/{{ image }}"
+                                                alt="{{ page.Title }}" class="img-fluid"></a></p>
             {% endif %}
             {% endfor %}
         </div>

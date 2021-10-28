@@ -68,3 +68,24 @@ footer p {
   content: '';
   bottom: 0;
 }
+
+.badge.badge-primary {
+  a {
+    color: #fff !important;
+  }
+}
+
+.badge.badge-default {
+  background: #fff;
+  border: 1px solid #ccc;
+
+  a {
+    font-weight: normal;
+  }
+}
+
+.tag-header {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}

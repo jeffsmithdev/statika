@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 
-{% block page_title %}{{ item.Title }}{% endblock %}
-{% block title %}{{ item.Title }}{% endblock %}
+{% block page_title %}{{ page.Title }}{% endblock %}
+{% block title %}{{ page.Title }}{% endblock %}
 
 {% block content %}
 <div class="container py-5">
     <div class="row justify-content-md-center">
         <div class="col-lg-10">
-            <p>{% for tag in item.Tags %}<span class="badge badge-primary ml-2">{{ tag }}</span>{% endfor %}</p>
-            <p>{{ item.Content | safe }}</p>
+            <p>{% for tag in page.Tags %}<span class="badge badge-primary ml-2 p-2">{{ tag }}</span>{% endfor %}</p>
+            <p>{{ page.Content | safe }}</p>
             </section>
         </div>
     </div>

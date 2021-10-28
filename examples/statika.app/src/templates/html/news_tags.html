@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block page_title %}Tags{% endblock %}
+{% block title %}Tags{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <section class="news text-center">
+        {% for key, pages in tags %}
+        <p><a href="{{ key | slugify }}">{{ key }} ({{ pages | length }})</a></p>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

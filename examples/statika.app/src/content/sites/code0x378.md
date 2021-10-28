@@ -1,5 +1,5 @@
 --- 
-uuid: {5dca8a4c-1030-44dc-a184-ae7275363e48} 
+uuid: 5dca8a4c-1030-44dc-a184-ae7275363e48"
 title: Code0x378
 linktitle: Code0x378  
 date: 2020-10-26 

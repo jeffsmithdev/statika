@@ -17,7 +17,15 @@ require (
 
 require (
 	github.com/beevik/etree v1.1.0 // indirect
+	github.com/extemporalgenome/slug v0.0.0-20150414033109-0320c85e32e0 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
+	github.com/flosch/go-humanize v0.0.0-20140728123800-3ba51eabe506 // indirect
+	github.com/flosch/pongo2-addons v0.0.0-20210526150811-f969446c5b72 // indirect
+	github.com/gosimple/slug v1.11.0 // indirect
+	github.com/gosimple/unidecode v1.0.0 // indirect
+	github.com/russross/blackfriday/v2 v2.0.1 // indirect
+	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/tdewolff/minify/v2 v2.9.22 // indirect
 	github.com/tdewolff/parse/v2 v2.5.22 // indirect
+	golang.org/x/text v0.3.3 // indirect
 )
