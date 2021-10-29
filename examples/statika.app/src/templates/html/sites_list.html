@@ -7,7 +7,9 @@
 <div class="container py-5">
     <p class="pt-4 text-center">The following sites were produced with Statika.</p>
 
-    <p class="tag-header py-2 mb-4 text-center"><span class="badge"><a href="/sites/tags/">All Tags</a></span> | {% for tag in tags %}<span class="badge ml-2 p-2"><a href="/sites/tags/{{ tag | slugify }}">{{ tag }}</a></span>{% endfor %}</p>
+    <p class="tag-header py-2 mb-4 text-center"><span class="badge">
+        <a href="/sites/tags/">All Tags</a></span> | {% for tag in sortedTags %}<span class="badge ml-2 p-2">
+        <a href="/sites/tags/{{ tag | slugify }}">{{ tag }}</a></span>{% endfor %}</p>
 
     <section class="cx-sites">
         <div class="row">
@@ -35,7 +37,7 @@
                             {% endif %}
                         </div>
                         <hr>
-                        <div class="text-center">{% for tag in page.Tags %}<span class="badge badge-default ml-2 p-2">
+                        <div>{% for tag in page.Tags %}<span class="badge badge-default ml-2">
                             <a href="/sites/tags/{{ tag | slugify }}">{{ tag }}</a></span>{% endfor %}
                         </div>
                     </div>

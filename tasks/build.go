@@ -148,28 +148,37 @@ func Build(cfg *models.Config) {
 			})
 		}
 
+		// sort tags
+		sortedTags := make([]string, 0, len(tags[section]))
+		for t := range tags[section] {
+			sortedTags = append(sortedTags, t)
+		}
+		sort.Slice(sortedTags, func(i, j int) bool {
+			return strings.ToLower(sortedTags[i]) < strings.ToLower(sortedTags[j])
+		}) //case-insensitive sort
+
 		if section != "pages" {
 			// write list index for section
 			outputFilePath := filepath.Join(cfg.OutputDir, section)
 			makeDir(outputFilePath)
-			saveHtml(templates, section, "list", filepath.Join(outputFilePath, "index.html"), pongo2.Context{"pages": pages[section], "tags": tags[section]})
+			saveHtml(templates, section, "list", filepath.Join(outputFilePath, "index.html"), pongo2.Context{"pages": pages[section], "tags": tags[section], "sortedTags": sortedTags})
 
 			// write list index for each tag in this section
 			for key, val := range tags[section] {
 				tagPath := filepath.Join(outputFilePath, "tags", slug.Make(key))
 				makeDir(tagPath)
-				saveHtml(templates, section, "list", filepath.Join(tagPath, "index.html"), pongo2.Context{"pages": val, "tags": tags[section]})
+				saveHtml(templates, section, "list", filepath.Join(tagPath, "index.html"), pongo2.Context{"pages": val, "tags": tags[section], "sortedTags": sortedTags})
 				util.Check(err)
 			}
 
 			// write tags page containing an index and count of all tags
-			saveHtml(templates, section, "tags", filepath.Join(outputFilePath, "tags", "index.html"), pongo2.Context{"tags": tags[section]})
+			saveHtml(templates, section, "tags", filepath.Join(outputFilePath, "tags", "index.html"), pongo2.Context{"tags": tags[section], "sortedTags": sortedTags})
 			util.Check(err)
 		}
 	}
 
 	// write the site's home page
-	saveHtml(templates, "pages", "home", filepath.Join(cfg.OutputDir, "index.html"), pongo2.Context{"pages": pages})
+	saveHtml(templates, "pages", "home", filepath.Join(cfg.OutputDir, "index.html"), pongo2.Context{"pages": pages, "tags": tags})
 
 	sm.Finalize()
 	duration := time.Since(start)

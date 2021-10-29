@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-12">
                 <p class="tag-header py-2 mb-4 text-center"><span class="badge p-2"><a
-                        href="/news/tags/">All Tags</a></span> | {% for tag in tags %}<span class="badge ml-2 p-2"><a
+                        href="/news/tags/">All Tags</a></span> | {% for tag in sortedTags %}<span class="badge ml-2 p-2"><a
                         href="/news/tags/{{ tag | slugify }}">{{ tag }}</a></span>{% endfor %}</p>
 
                 <table class="table">

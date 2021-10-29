@@ -1,0 +1,7 @@
+{% for tag in sortedTags %}
+{% for key, pages in tags %}
+{% if tag == key %}
+<p><a href="{{ key | slugify }}">{{ key }} ({{ pages | length }})</a></p>
+{% endif %}
+{% endfor %}
+{% endfor %}

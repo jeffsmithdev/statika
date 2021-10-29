@@ -4,14 +4,14 @@
 
 {% block content %}
 <div class="container">
-    {% for item in items %}
+    {% for page in pages %}
     <section class="section">
         <div class="columns">
             <div class="column is-8 is-offset-2">
                 <div class="content is-medium">
-                    <h1 class="title"><a href="/blog/{{ item.Slug }}">{{ item.Title }}</a></h1>
-                    <h5 class="subtitle">{{ item.Date | date:"January 2, 2006" }}</h5>
-                    <p>{{ item.Content | truncatechars:200  | safe }} <span class="is-size-7"><a href="/blog/{{ item.Slug }}">[ Read More ]</a></span>
+                    <h1 class="title"><a href="/blog/{{ page.Slug }}">{{ page.Title }}</a></h1>
+                    <h5 class="subtitle">{{ page.Date | date:"January 2, 2006" }}</h5>
+                    <p>{{ page.Content | truncatechars:200  | safe }} <span class="is-size-7"><a href="/blog/{{ page.Slug }}">[ Read More ]</a></span>
                     </p>
                 </div>
             </div>

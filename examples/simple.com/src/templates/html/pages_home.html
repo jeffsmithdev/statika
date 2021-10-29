@@ -4,14 +4,14 @@
 
 {% block content %}
 <div class="container">
-    {% for item in items.blog | slice:"0:2" %}
+    {% for page in pages.blog | slice:"0:2" %}
     <section class="section">
         <div class="columns">
             <div class="column is-8 is-offset-2">
                 <div class="content is-medium">
-                    <h1 class="title"><a href="/blog/{{ item.Slug }}">{{ item.Title }}</a></h1>
-                    <p class="subtitle">{{ item.Date | date:"January 2, 2006" }}</p>
-                    <p>{{ item.Content | truncatechars:50  | safe }} <span class="is-size-7"><a href="/blog/{{ item.Slug }}">[ Read More ]</a></span>
+                    <h1 class="title"><a href="/blog/{{ page.Slug }}">{{ page.Title }}</a></h1>
+                    <p class="subtitle">{{ page.Date | date:"January 2, 2006" }}</p>
+                    <p>{{ page.Content | truncatechars:50  | safe }} <span class="is-size-7"><a href="/blog/{{ page.Slug }}">[ Read More ]</a></span>
                     </p>
                 </div>
             </div>

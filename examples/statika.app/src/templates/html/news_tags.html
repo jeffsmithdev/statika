@@ -6,9 +6,7 @@
 {% block content %}
 <div class="container py-5">
     <section class="news text-center">
-        {% for key, pages in tags %}
-        <p><a href="/news/tags/{{ key | slugify }}">{{ key }} ({{ pages | length }})</a></p>
-        {% endfor %}
+        {% include "partials/_tag-list.html" %}
     </section>
 </div>
 {% endblock %}

@@ -17,7 +17,6 @@ import (
 	"github.com/jessevdk/go-flags"
 	"github.com/joho/godotenv"
 	"log"
-	"os"
 	"path/filepath"
 	"statika/models"
 	"statika/tasks"
@@ -29,12 +28,12 @@ const version = "0.0.1"
 var (
 	cfg  *models.Config
 	opts = struct {
-		SrcDir  string `short:"d" long:"dir" description:"The project directory (if not using SRC_DIR in .env)."`
-		Server  []bool `short:"s" long:"server" description:"Run development server"`
-		Build   []bool `short:"b" long:"build" description:"Build the site"`
-		Watch   []bool `short:"w" long:"watch" description:"Watch for file changes and build site automatically"`
-		Clean   []bool `short:"c" long:"clean" description:"Clean build directory"`
-		Verbose []bool `short:"v" long:"Verbose" description:"Enable Verbose logging"`
+		ProjectDir string `short:"d" long:"dir" description:"The project directory (if not using PROJECT_DIR in .env)."`
+		Server     []bool `short:"s" long:"server" description:"Run development server"`
+		Build      []bool `short:"b" long:"build" description:"Build the site"`
+		Watch      []bool `short:"w" long:"watch" description:"Watch for file changes and build site automatically"`
+		Clean      []bool `short:"c" long:"clean" description:"Clean build directory"`
+		Verbose    []bool `short:"v" long:"Verbose" description:"Enable Verbose logging"`
 	}{}
 )
 
@@ -45,15 +44,13 @@ func init() {
 	cfg = &models.Config{}
 	cfg.Verbose = len(opts.Verbose) > 0
 
-	if opts.SrcDir != "" {
-		cfg.ProjectDir = opts.SrcDir
-	} else if os.Getenv("SRC_DIR") != "" {
-		cfg.ProjectDir = os.Getenv("SRC_DIR")
+	if opts.ProjectDir != "" {
+		cfg.ProjectDir = opts.ProjectDir
 	} else {
-		log.Fatal("The src directory is required.  Please specify either SRC_DIR in the .env file or use the -d parameter on the command line.")
+		cfg.ProjectDir = ""
 	}
 
-	err = godotenv.Load(cfg.ProjectDir + "/.env")
+	err = godotenv.Load(filepath.Join(cfg.ProjectDir, ".env"))
 	util.Check(err)
 
 	cfg.SrcDir = filepath.Join(cfg.ProjectDir, "src/")
