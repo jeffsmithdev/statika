@@ -1,4 +1,8 @@
+# MacOS DS_Store files
+.DS_Store
+
 # Binaries for programs and plugins
+bin
 *.exe
 *.exe~
 *.dll
@@ -10,13 +14,26 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+coverage.html
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
+# Output of GoReleaser
+dist/
+
+# Visual Studio Code files
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+#Other
+
+node_modules
 .idea
-/examples/simple.com/output/
-bin
 output
 /examples/statika.app/deploy-prod.sh
 /examples/statika.app/deploy-staging.sh
