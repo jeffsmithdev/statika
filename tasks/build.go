@@ -94,7 +94,7 @@ func Build(cfg *models.Config) {
 
 			frontMatter, body := readMarkdownFile(filepath.Join(sectionPath + "/" + file.Name()))
 
-			if draft := util.GetBool(frontMatter, "draft"); draft == true {
+			if draft := util.GetBool(frontMatter, "draft"); draft {
 				continue
 			}
 
@@ -224,8 +224,7 @@ func loadTemplates(section string, templates Templates, cfg *models.Config) Temp
 	return templates
 }
 
-func loadTemplate(section string, t string, cfg *models.Config) *pongo2.Template {
-	var tpl = &pongo2.Template{}
+func loadTemplate(section string, t string, cfg *models.Config) (tpl *pongo2.Template) {
 	localTplPath := filepath.Join(cfg.TemplatesDir, section+"_"+t+".html")
 	if fileExists(localTplPath) {
 		tpl = pongo2.Must(pongo2.FromFile(filepath.Join(cfg.TemplatesDir, section+"_"+t+".html")))
