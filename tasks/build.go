@@ -162,6 +162,7 @@ func Build(cfg *models.Config) {
 			outputFilePath := filepath.Join(cfg.OutputDir, section)
 			makeDir(outputFilePath)
 			saveHtml(templates, section, "list", filepath.Join(outputFilePath, "index.html"), pongo2.Context{"pages": pages[section], "tags": tags[section], "sortedTags": sortedTags})
+			sm.Add(stm.URL{{"loc", "/" + section}})
 
 			// write list index for each tag in this section
 			for key, val := range tags[section] {
@@ -173,12 +174,14 @@ func Build(cfg *models.Config) {
 
 			// write tags page containing an index and count of all tags
 			saveHtml(templates, section, "tags", filepath.Join(outputFilePath, "tags", "index.html"), pongo2.Context{"tags": tags[section], "sortedTags": sortedTags})
+			sm.Add(stm.URL{{"loc", "/" + section + "/" + "tags"}})
 			util.Check(err)
 		}
 	}
 
 	// write the site's home page
 	saveHtml(templates, "pages", "home", filepath.Join(cfg.OutputDir, "index.html"), pongo2.Context{"pages": pages, "tags": tags})
+	sm.Add(stm.URL{{"loc", "/"}})
 
 	sm.Finalize()
 	duration := time.Since(start)
