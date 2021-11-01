@@ -3,11 +3,11 @@
 statika is a simple SSG (Static Site Generator) written in go.
 
 Examples:
-$ statika <project-dir>
-$ statika simple.com -c  # Clean the output
-$ statika simple.com -b  # Manually build
-$ statika simple.com -w  # Watch for changes then build
-$ statika simple.com -s  # Run a local development server
+$ statika -d <project-dir>
+$ statika -d simple.com -c  # Clean the output
+$ statika -d simple.com -b  # Manually build
+$ statika -d simple.com -w  # Watch for changes then build
+$ statika -d simple.com -s  # Run a local development server
 */
 package main
 

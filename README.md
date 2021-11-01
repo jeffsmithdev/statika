@@ -14,16 +14,34 @@ The statika.app example site is live here: https://www.statika.app/
 ## Usage
 
 ```shell
-$ statika <project-dir>   # The default action is to watch
-$ statika simple.com -c  # Clean the output
-$ statika simple.com -b  # Manually build
-$ statika simple.com -w  # Watch for changes then build
-$ statika simple.com -s  # Run a local development server
+$ statika -d <project-dir>   # The default action is to watch
+$ statika -d simple.com -c  # Clean the output
+$ statika -d simple.com -b  # Manually build
+$ statika -d simple.com -w  # Watch for changes then build
+$ statika -d simple.com -s  # Run a local development server
 ```
 
-## Example project folder
+## Configuration
 
-The following is an example project folder:
+The config is specified in an .env file in the root of the project dir.  There are not many options but those that do
+exist include:
+
+```bash
+# Required
+DOMAIN="statika.app"
+URL="https://statika.app"
+
+# Optional
+DEV_SERVER_HOST="localhost"
+DEV_SERVER_PORT=8001
+```
+
+## Project Structure
+
+The project folder assumes the following structure where different sections, i.e. blog, events. news, products, etc,
+of the site will exist as folders under the content directory.  The pages folder is a special section and produces
+content at the root of the site rather than within a section.  If a template file for a section, for example
+pages_tags.html, does not exist, statika just skips that output.
 
 ```bash
 ── .env
