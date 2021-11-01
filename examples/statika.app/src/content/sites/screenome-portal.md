@@ -5,7 +5,7 @@ linktitle: Screenome Portal
 date: 2017-10-22 
 author: Statika 
 website:  https://screenome.com/
-tags:   SASS, JS
+tags:   Biotech
 categories:   Development,  
 draft: false 
 images: screenome-portal.png

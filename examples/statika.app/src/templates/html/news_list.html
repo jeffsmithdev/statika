@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
-{% block page_title %}News{% endblock %}
-{% block title %}News{% endblock %}
+{% block page_title %}News {% if tag %}({{ tag }}){% endif %}{% endblock %}
+{% block title %}News {% if tag %}({{ tag }}){% endif %}{% endblock %}
 
 {% block content %}
 <div class="container py-5">

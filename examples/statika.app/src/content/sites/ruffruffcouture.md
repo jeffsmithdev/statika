@@ -5,7 +5,7 @@ linktitle: Ruff Ruff Couture
 date: 2018-01-23 
 author: Statika 
 website: http://www.ruffruffcouture.com
-tags: Web Design, Dog Apparel, ecommerce
+tags: Pets, Ecommerce
 categories:   
 draft: false 
 images: ruffruffcouture-home.png, ruffruffcouture-product.png

@@ -5,7 +5,7 @@ linktitle: Stella Chow Real Estate
 date: 2016-01-23 
 author: Statika 
 website: 
-tags: Web Design, Real Estate 
+tags: Real Estate, Bootstrap
 categories:   
 draft: false 
 images: stellachow-home.png 

@@ -167,7 +167,7 @@ func Build(cfg *models.Config) {
 			for key, val := range tags[section] {
 				tagPath := filepath.Join(outputFilePath, "tags", slug.Make(key))
 				makeDir(tagPath)
-				saveHtml(templates, section, "list", filepath.Join(tagPath, "index.html"), pongo2.Context{"pages": val, "tags": tags[section], "sortedTags": sortedTags})
+				saveHtml(templates, section, "list", filepath.Join(tagPath, "index.html"), pongo2.Context{"pages": val, "tags": tags[section], "sortedTags": sortedTags, "tag": key})
 				util.Check(err)
 			}
 

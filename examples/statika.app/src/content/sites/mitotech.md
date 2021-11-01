@@ -5,7 +5,7 @@ linktitle: Mitotech
 date: 2021-10-10 
 author: Statika 
 website: https://www.mitotechpharma.com/ 
-tags: Web Design, Foundation
+tags: Biotech, Bootstrap
 categories:   
 draft: false 
 images: mitotech-home-v2.png, mitotech-covid-v2.png, mitotech-home.png, mitotech-pipeline.png, mitotech-page.png  

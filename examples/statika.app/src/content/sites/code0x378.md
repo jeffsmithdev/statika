@@ -5,7 +5,7 @@ linktitle: Code0x378
 date: 2020-10-26 
 author: Statika 
 website: https://www.code0x378.com/ 
-tags: Coding, DevOps, Arduino, Silver Era Stereos
+tags: Personal, Bootstrap
 categories:   
 draft: false 
 images: code0x378-home.png, code0x378-notes.png, code0x378-code.png  

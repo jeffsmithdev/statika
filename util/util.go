@@ -48,8 +48,14 @@ func GetDate(frontMatter map[string]interface{}, key string) time.Time {
 func GetSlice(frontMatter map[string]interface{}, key string) []string {
 	defer handleError()
 
+	if frontMatter[key] == nil {
+		return []string{}
+	}
+	frontMatter[key] = strings.ReplaceAll(frontMatter[key].(string), ", ", ",")
+	frontMatter[key] = strings.ReplaceAll(frontMatter[key].(string), " ,", ",")
+
 	if frontMatter[key] != nil {
-		return strings.Split(strings.ReplaceAll(frontMatter[key].(string), ", ", ","), ",")
+		return strings.Split(frontMatter[key].(string), ",")
 	} else {
 		return []string{}
 	}

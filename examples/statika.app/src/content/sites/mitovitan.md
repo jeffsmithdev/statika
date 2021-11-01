@@ -5,7 +5,7 @@ linktitle: MitoVitan
 date: 2017-01-23 
 author: Statika 
 website: https://mitovitan.ru/ 
-tags: Web Design, Php
+tags: Biotech, Bootstrap
 categories:   
 draft: false 
 images: mitovitan-home.png, mitovitan-page.png, mitovitan-molecule.png  

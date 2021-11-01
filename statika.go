@@ -44,6 +44,10 @@ func init() {
 	cfg = &models.Config{}
 	cfg.Verbose = len(opts.Verbose) > 0
 
+	if cfg.Verbose {
+		fmt.Println("Version: ", version)
+	}
+
 	if opts.ProjectDir != "" {
 		cfg.ProjectDir = opts.ProjectDir
 	} else {
@@ -62,9 +66,6 @@ func init() {
 }
 
 func main() {
-	if cfg.Verbose {
-		fmt.Println("Version: ", version)
-	}
 
 	if len(opts.Server) > 0 {
 		fmt.Println("Serving...")

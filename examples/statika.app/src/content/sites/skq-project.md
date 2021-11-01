@@ -5,7 +5,7 @@ linktitle: SKQ Project
 date: 2021-10-08 
 author: Statika 
 website: https://sk-q.com 
-tags:   Web Design, Foundation
+tags:   Biotech, Bootstrap
 categories:   
 draft: false 
 images: skq-home.png, skq-page.png, skq-publications.png 

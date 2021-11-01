@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
-{% block page_title %}Sites built with Statika{% endblock %}
-{% block title %}Sites built with Statika{% endblock %}
+{% block page_title %}Sites built with Statika {% if tag %}({{ tag }}){% endif %}{% endblock %}
+{% block title %}Sites built with Statika {% if tag %}({{ tag }}){% endif %}{% endblock %}
 
 {% block content %}
 <div class="container py-5">

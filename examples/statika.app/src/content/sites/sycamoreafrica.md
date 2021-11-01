@@ -5,7 +5,7 @@ linktitle: Sycamore Africa
 date: 2016-10-10 
 author: Statika 
 website: https://www.sycamoreafrica.com/ 
-tags: Web Design, Bootstrap
+tags: Consulting, Bootstrap
 categories:   
 draft: false 
 images: sycamoreafrica-home.png, sycamoreafrica-leadership.png, sycamoreafrica-industries.png  
