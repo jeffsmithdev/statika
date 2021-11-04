@@ -28,7 +28,7 @@ const version = "0.0.1"
 var (
 	cfg  *models.Config
 	opts = struct {
-		ProjectDir string `short:"d" long:"dir" description:"The project directory (if not using PROJECT_DIR in .env)."`
+		ProjectDir string `short:"d" long:"project_dir" description:"The project directory (if not using PROJECT_DIR in .env)." required:"true"`
 		Server     []bool `short:"s" long:"server" description:"Run development server"`
 		Build      []bool `short:"b" long:"build" description:"Build the site"`
 		Watch      []bool `short:"w" long:"watch" description:"Watch for file changes and build site automatically"`
