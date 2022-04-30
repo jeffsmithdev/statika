@@ -119,6 +119,7 @@ func Build(cfg *models.Config) {
 				Tags:        util.GetSlice(frontMatter, "tags"),
 				Categories:  util.GetSlice(frontMatter, "categories"),
 				Date:        util.GetDate(frontMatter, "date"),
+				Data:        frontMatter,
 			}
 
 			var outputFilePath string

@@ -32,4 +32,5 @@ type Page struct {
 	Id          string
 	Uuid        string
 	Description string
+	Data        map[string]interface{}
 }
